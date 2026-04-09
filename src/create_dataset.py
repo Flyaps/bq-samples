@@ -14,7 +14,7 @@ def main(argv: list[str]) -> int:
 
     # create dataset
     dataset = client.create_dataset(dataset, timeout=30)
-    print("created dataset {client.project}.{dataset.dataset_id}")
+    print(f"created dataset {client.project}.{dataset.dataset_id}")
 
 
 if __name__ == "__main__":
