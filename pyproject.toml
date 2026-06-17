@@ -1,0 +1,40 @@
+[project]
+name = "bq-samples"
+version = "0.1.0"
+description = "BigQuery samples"
+authors = [
+    {name = "Flyaps", email = "info@flyaps.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "google-cloud-bigquery>=3.41.0,<4.0.0"
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.6",
+    "mypy>=1.11",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint]
+# pycodestyle, pyflakes, isort, pyupgrade, flake8-bugbear
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.10"
+mypy_path = "src"
+warn_unused_ignores = true
+warn_redundant_casts = true
+
+# google-auth / bigquery don't ship complete type information.
+[[tool.mypy.overrides]]
+module = ["google.*"]
+ignore_missing_imports = true
