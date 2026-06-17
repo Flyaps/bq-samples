@@ -23,7 +23,8 @@ def main(argv: list[str]) -> int:
     dataset = client.create_dataset(settings.DATASET_NAME, exists_ok=True)
     print(f"created dataset {dataset.project}.{dataset.dataset_id}")
 
+    return 0
+
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
-

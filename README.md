@@ -2,22 +2,23 @@
 
 A small collection of standalone Python scripts that exercise the
 [`google-cloud-bigquery`](https://cloud.google.com/python/docs/reference/bigquery/latest)
-client. Each file in `src/` is a self-contained example that demonstrates one
-piece of the BigQuery API (creating a dataset, loading a table, running a
-query, etc.) — they're intended to be read and run individually, not wired
-together into a CLI or library.
+client. Each sample in `src/` demonstrates one piece of the BigQuery API
+(creating a dataset, loading a table, running a query, etc.) — they're
+intended to be read and run individually, not wired together into a CLI or
+library. A couple of small shared modules (`settings.py`, `adapters.py`) hold
+the project config and client setup the samples reuse.
 
 ## Requirements
 
 - Python ≥ 3.10
-- [Poetry](https://python-poetry.org/) for dependency management
+- [uv](https://docs.astral.sh/uv/) for dependency management
 - A Google Cloud project with the BigQuery API enabled
 - `gcloud` CLI, authenticated
 
 ## Setup
 
 ```bash
-poetry install
+uv sync
 ```
 
 ### Authenticate
@@ -85,17 +86,21 @@ gcloud iam service-accounts get-iam-policy $SA
 ## Running a sample
 
 ```bash
-poetry run python src/create_dataset.py
+uv run python src/create_dataset.py
 ```
 
-The target GCP project is hardcoded near the top of each script — open the
-file and edit the literal (e.g. `"bq-demo-beef.demoset"`) before running.
+The target GCP project and dataset live in `src/settings.py`
+(`PROJECT_ID`, `DATASET_NAME`) — edit those literals to point the samples at
+your own project. Run samples from the repo root so the `data/` fixtures
+resolve by relative path.
 
 ## Layout
 
 ```
-src/                 standalone samples — one BigQuery concept per file
+src/                 samples — one BigQuery concept per file
   create_dataset.py    create a new dataset
+  settings.py          PROJECT_ID / DATASET_NAME for all samples
+  adapters.py          get_bigquery_client() — builds the BigQuery client
 data/                small CSV fixtures loaded by some of the samples
   industry.csv
 ```
@@ -107,10 +112,11 @@ Mirror the shape of `src/create_dataset.py`:
 - a `main(argv: list[str]) -> int` entry point
 - a `sys.exit(main(sys.argv))` guard at the bottom
 - inline comments calling out the BigQuery API steps
+- the client from `get_bigquery_client()` (in `adapters`) and config from `settings`
 
-Keep each script self-contained and readable top-to-bottom — these are
-teaching examples, not production code. Put any sample data in `data/` and
-load it by relative path from the repo root.
+Keep each sample readable top-to-bottom — these are teaching examples, not
+production code. Put any sample data in `data/` and load it by relative path
+from the repo root.
 
 ## License
 
