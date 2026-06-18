@@ -14,8 +14,6 @@ def main(argv: list[str]) -> int:
 
     client = get_bigquery_client()
 
-    # dataset "context" — project comes from the client, so call sites only
-    # need the table name via dataset.table(<name>)
     dataset = bigquery.DatasetReference(client.project, settings.DATASET_NAME)
     table_ref = dataset.table(Path(argv[1]).stem)
 
