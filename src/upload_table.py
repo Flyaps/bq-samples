@@ -14,8 +14,8 @@ def main(argv: list[str]) -> int:
 
     client = get_bigquery_client()
 
-    dataset = bigquery.DatasetReference(client.project, settings.DATASET_NAME)
-    table_ref = dataset.table(Path(argv[1]).stem)
+    dataset_ref = bigquery.DatasetReference(client.project, settings.DATASET_NAME)
+    table_ref = dataset_ref.table(Path(argv[1]).stem)
 
     # configure the load: CSV input, skip the header row, infer the schema
     job_config = bigquery.LoadJobConfig(
