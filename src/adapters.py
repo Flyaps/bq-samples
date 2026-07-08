@@ -4,6 +4,6 @@ from google.cloud import bigquery
 import settings
 
 
-def get_bigquery_client() -> bigquery.Client:
-    credentials, _ = google.auth.default(quota_project_id=settings.PROJECT_ID)
-    return bigquery.Client(project=settings.PROJECT_ID, credentials=credentials)
+def get_bigquery_client(project_id=settings.PROJECT_ID) -> bigquery.Client:
+    credentials, _ = google.auth.default(quota_project_id=project_id)
+    return bigquery.Client(project=project_id, credentials=credentials)
